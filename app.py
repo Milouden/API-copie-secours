@@ -39,8 +39,8 @@ def hello():
 
 
 
-@app.route('/precition_credit/<id_client>')
-def precition_credit(id_client):
+@app.route('/predition_credit/<id_client>')
+def predition_credit(id_client):
 
     print('id client = ', id_client)
     
