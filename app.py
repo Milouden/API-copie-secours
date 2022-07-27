@@ -1,5 +1,6 @@
 ## Importation des librarys 
 import joblib
+import re
 #import uvicorn
 from flask import Flask, jsonify
 import pandas as pd
@@ -14,7 +15,7 @@ PATH = 'dataset/'
 #      Chargement des données 
 
 #    data = pd.read_csv('dataset/test_dataframe.csv')
-data = pd.read_parquet('test_df.parquet')
+data = pd.read_parquet('dataset/test_df.parquet')
 print('la taille de Dataframe est = ', data.shape)
 
 #data.drop(columns = {'Unnamed: 0'}  , inplace = True)
@@ -22,7 +23,7 @@ print('la taille de Dataframe est = ', data.shape)
 print('la taille de la nouvelle Dataframe est = ', data.shape)
 #Chargement du modèle
 # model = pickle.load(open('model/ModelClassifier.pkl', 'rb'))
-model = pickle.load(open('ModelClassifier.pkl', 'rb'))
+model = pickle.load(open('model/ModelClassifier.pkl', 'rb'))
 
 
 
@@ -38,8 +39,8 @@ def hello():
 
 
 
-@app.route('/credit/<id_client>')
-def credit(id_client):
+@app.route('/precition_credit/<id_client>')
+def precition_credit(id_client):
 
     print('id client = ', id_client)
     
@@ -63,6 +64,7 @@ def credit(id_client):
     
     proba = model.predict_proba(X)
     prediction = model.predict(X)
+    #classs = model.class(X)
     ## autre = model.
  
     #DEBUG
@@ -71,6 +73,7 @@ def credit(id_client):
     dict_final = {
         'prediction' : int(prediction),
         'proba' : float(proba[0][0])
+        #'classs' : int(classs)
         ##  Ajouter d'autres parametres 
         }
    
@@ -89,7 +92,7 @@ def credit(id_client):
 
 
 if __name__ == "__main__":
-    #app.secret_key = "krankenhouse"
+    #import myapp
     #waitress.serve(myapp.wsgifunc, port=8041, url_scheme='https')
     ## from waitress import serve
     #app.run(host = 'localhost', port = 8088, debug = True)
